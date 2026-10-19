@@ -21,16 +21,16 @@ Requires Python 3.10+. Current local validation uses Python 3.14; the configured
 Set credentials in your shell or create a local `.env` using the variable names below. Never commit credentials.
 
 ```text
-OPENAI_API_KEY=
-ANTHROPIC_API_KEY=
-OPENROUTER_API_KEY=
-GROQ_API_KEY=
-CEREBRAS_API_KEY=
-MISTRAL_API_KEY=
-DEEPSEEK_API_KEY=
-TOGETHER_API_KEY=
-HF_TOKEN=
-REPLICATE_API_TOKEN=
+OPENAI_API_KEY=""
+ANTHROPIC_API_KEY=""
+OPENROUTER_API_KEY=""
+GROQ_API_KEY=""
+CEREBRAS_API_KEY=""
+MISTRAL_API_KEY=""
+DEEPSEEK_API_KEY=""
+TOGETHER_API_KEY=""
+HF_TOKEN=""
+REPLICATE_API_TOKEN=""
 ```
 
 ```console
@@ -77,3 +77,5 @@ Before a public release: review current provider contracts, select a code licens
 ## Author
 
 Douglas de Oliveira Silva · [GitHub](https://github.com/qquante) · [LinkedIn](https://www.linkedin.com/in/douglas-silva-data-analyst/)
+
+Detailed preparation scope: [review notes](docs/REVIEW.md).
