@@ -39,3 +39,11 @@ These checks use offline fixtures or controlled backends.
 ## License
 
 No open-source license has been granted. Redistribution terms remain to be defined.
+
+## CLI help
+
+```console
+python key_audit.py --help
+```
+
+Provider requests require your own locally configured credentials. Help and the offline unit tests do not query provider accounts.
