@@ -2,6 +2,10 @@
 
 Inspect configured AI provider credentials, visible models and available account metadata from a Python command line interface.
 
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Dependencies](https://img.shields.io/badge/dependencies-standard%20library-blue)](#architecture)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Douglas%20Silva-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/douglas-silva-data-analyst/)
+
 **Stack:** Python standard library · HTTP GET · JSON · concurrent workers · unittest. No database, frontend or external Python packages.
 
 ## Purpose
@@ -69,3 +73,7 @@ Tests use fake clients and temporary environment variables. No real credentials 
 Private review preparation. Source behavior is preserved from the original local project; documentation and CI are being prepared separately. The original provider research is retained in [original notes](docs/original-notes.md) as historical documentation, not as a newly verified API compatibility statement.
 
 Before a public release: review current provider contracts, select a code license, and validate the Python compatibility matrix. No open-source license has been granted by this preparation.
+
+## Author
+
+Douglas de Oliveira Silva · [GitHub](https://github.com/qquante) · [LinkedIn](https://www.linkedin.com/in/douglas-silva-data-analyst/)
