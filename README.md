@@ -1,5 +1,8 @@
 # AI Provider Access Inspector
 
+> **Local private review:** publication is paused. See [security review and remaining release conditions](docs/SECURITY_REVIEW.md). Local fixes have not been pushed.
+
+
 Inspect configured AI provider credentials, visible models and available account metadata from a Python command line interface.
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
