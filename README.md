@@ -66,7 +66,7 @@ The program keeps no database. Reports are optional local JSON files. Exit codes
 python -m unittest discover -s tests -v
 ```
 
-Tests use fake clients and temporary environment variables. No real credentials or network requests are needed. The CI workflow runs this suite; no passing badge is claimed before a remote run.
+Tests use fake clients and temporary environment variables. No real credentials or network requests are needed. A CI template is available in `docs/ci-templates/offline-tests.yml`; it is inactive pending GitHub workflow access. No passing badge is claimed before a remote run.
 
 ## Project status
 
