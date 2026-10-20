@@ -1,78 +1,41 @@
 # AI Provider Access Inspector
 
-**Provider access diagnostics, model catalogues and structured account observations.**
-
 ![Language: Python](https://img.shields.io/badge/Language-Python-3776AB?style=flat-square&logo=python) ![Requests: HTTP GET](https://img.shields.io/badge/Requests-HTTP%20GET-555555?style=flat-square) [![License: MIT](https://img.shields.io/badge/License-MIT-555555?style=flat-square)](LICENSE)
 
-[Overview](#overview) · [Quickstart](#quickstart) · [Example](#example) · [Validation](#validation) · [Documentation](#documentation)
+Inspect configured AI-provider access from a single Python CLI: available models, account metadata and balance or usage information when the provider exposes it.
 
-## Overview
+The inspector issues GET requests; it does not submit inference prompts. Provider responses are normalized into access states, so an absent credential, a restricted account and a rate limit do not collapse into the same error.
 
-Python CLI for inspecting configured AI provider access, model catalogs and account metadata.
+## Start with the local interface
 
-**Stack:** Python standard library · HTTP GET · JSON · unittest
-
-## Interpret access states
-
-| Component | Behavior |
-| --- | --- |
-| Provider adapters | Ten adapters query supported account/model endpoints without inference prompts. |
-| Distinct outcomes | Missing, invalid, restricted, partial, rate-limited and unavailable results retain different meanings. |
-| Structured output | CLI observations can be exported as JSON for inspection. |
-
-## Processing path
-
-```mermaid
-flowchart LR
-  N0["Local credential configuration"]
-  N1["provider HTTP adapter"]
-  N2["normalized observation"]
-  N3["JSON output"]
-N0 --> N1 --> N2 --> N3
-```
-
-## Quickstart
+Python's standard library is sufficient for the CLI and its offline tests:
 
 ```console
-python -m venv .venv
-# Activate .venv, then:
 python key_audit.py --help
 python -m unittest discover -s tests -v
 ```
 
-The commands above install prerequisites or run the specified offline checks. Live collection, cloud operations, messaging and trading are separate operational steps when present.
+For your own configured accounts, a bounded operational query is:
 
-## Example
+```console
+python key_audit.py --env-file .env --models-limit 5 --timeout 10 --workers 2 --json --output report.json
+```
 
-**Inspect the workflow**
+That command contacts provider endpoints. Use `--provider` with one or more slugs from `--help` to restrict the query. Account reports may contain private account metadata; keep them local.
 
-Use `--provider` to select adapters, `--models-limit` to bound model output and `--timeout`/`--workers` to control requests. `--json` prints structured output; `--output` writes it locally. CLI help and offline tests need no provider secret. Account queries require your own credentials.
+## Read the result correctly
 
-## Configuration and storage
-
-Python 3.10+ and the standard library are sufficient. [.env.example](.env.example) lists the adapter-specific credential names. Exported account metadata can be sensitive even when secret values are not printed.
-
-## Repository guide
-
-| Location | Responsibility |
+| State | Meaning |
 | --- | --- |
-| [key_audit.py](key_audit.py) | CLI entrypoint |
-| [keyscope/providers.py](keyscope/providers.py) | Provider adapters |
-| [keyscope/http.py](keyscope/http.py) | HTTP boundary |
-| [tests](tests) | Offline fixtures and checks |
+| `missing` | No configured credential was found. |
+| `valid` / `partial` | The adapter obtained supported information; coverage can vary by endpoint. |
+| `restricted` / `invalid` | The response indicates an access or authentication problem. |
+| `rate_limited` / `unavailable` | The query could not complete normally; neither proves an invalid key. |
 
-## Validation
+Model lists are bounded by `--models-limit`; `0` requests the full supported list. A balance is shown only when reported by the provider, not estimated from successful authentication.
 
-These checks use offline fixtures or controlled backends.
+[cli.py](keyscope/cli.py) handles bounded concurrency and ordered reporting; [providers.py](keyscope/providers.py) owns provider-specific interpretation; [http.py](keyscope/http.py) owns HTTP behavior. Exception reporting avoids echoing credentials. The offline suite covers controlled responses, not the current permissions of a live account.
 
-## Scope and operational boundaries
+**Technology:** Python standard library · HTTP GET · JSON · unittest
 
-A listed model does not prove inference access, available credit or permission to use every capability. Account endpoints and response coverage differ across providers.
-
-## Documentation
-
-- The repository guide above links directly to the implementation and configuration files.
-
-## License and attribution
-
-Project-authored source code is licensed under the [MIT License](LICENSE). Third-party components and datasets retain their respective rights and licenses.
+Project-authored source: [MIT](LICENSE). Third-party components retain their own notices and terms.
