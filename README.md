@@ -1,49 +1,78 @@
 # AI Provider Access Inspector
 
+**Provider access diagnostics, model catalogues and structured account observations.**
+
+![Language: Python](https://img.shields.io/badge/Language-Python-3776AB?style=flat-square&logo=python) ![Requests: HTTP GET](https://img.shields.io/badge/Requests-HTTP%20GET-555555?style=flat-square) [![License: MIT](https://img.shields.io/badge/License-MIT-555555?style=flat-square)](LICENSE)
+
+[Overview](#overview) · [Quickstart](#quickstart) · [Example](#example) · [Validation](#validation) · [Documentation](#documentation)
+
+## Overview
+
 Python CLI for inspecting configured AI provider access, model catalogs and account metadata.
 
-## Features
+**Stack:** Python standard library · HTTP GET · JSON · unittest
 
-- Inspect credentials across ten provider adapters without sending inference prompts.
-- Distinguish authentication failures, rate limits and partial responses.
-- Export account and model observations as structured JSON.
+## Interpret access states
 
-## Stack
+| Component | Behavior |
+| --- | --- |
+| Provider adapters | Ten adapters query supported account/model endpoints without inference prompts. |
+| Distinct outcomes | Missing, invalid, restricted, partial, rate-limited and unavailable results retain different meanings. |
+| Structured output | CLI observations can be exported as JSON for inspection. |
 
-Python standard library · HTTP GET · JSON · unittest
+## Processing path
 
-No database or external Python package is required. Account outputs may contain sensitive metadata.
-
-## Getting started
-
-Requires Python 3.10+. Configure provider credentials locally using .env.example, then inspect the CLI help before querying an account. Run python -m unittest discover -s tests -v for offline checks.
-
-## How it works
-
-```text
-Local credential configuration → provider HTTP adapter → normalized observation → JSON output
+```mermaid
+flowchart LR
+  N0["Local credential configuration"]
+  N1["provider HTTP adapter"]
+  N2["normalized observation"]
+  N3["JSON output"]
+N0 --> N1 --> N2 --> N3
 ```
 
-## Current limitations
-
-Model listing does not establish inference access. Account metadata availability varies by provider.
-
-## Tests
+## Quickstart
 
 ```console
+python -m venv .venv
+# Activate .venv, then:
+python key_audit.py --help
 python -m unittest discover -s tests -v
 ```
 
+The commands above install prerequisites or run the specified offline checks. Live collection, cloud operations, messaging and trading are separate operational steps when present.
+
+## Example
+
+**Inspect the workflow**
+
+Use `--provider` to select adapters, `--models-limit` to bound model output and `--timeout`/`--workers` to control requests. `--json` prints structured output; `--output` writes it locally. CLI help and offline tests need no provider secret. Account queries require your own credentials.
+
+## Configuration and storage
+
+Python 3.10+ and the standard library are sufficient. [.env.example](.env.example) lists the adapter-specific credential names. Exported account metadata can be sensitive even when secret values are not printed.
+
+## Repository guide
+
+| Location | Responsibility |
+| --- | --- |
+| [key_audit.py](key_audit.py) | CLI entrypoint |
+| [keyscope/providers.py](keyscope/providers.py) | Provider adapters |
+| [keyscope/http.py](keyscope/http.py) | HTTP boundary |
+| [tests](tests) | Offline fixtures and checks |
+
+## Validation
+
 These checks use offline fixtures or controlled backends.
 
-## License
+## Scope and operational boundaries
+
+A listed model does not prove inference access, available credit or permission to use every capability. Account endpoints and response coverage differ across providers.
+
+## Documentation
+
+- The repository guide above links directly to the implementation and configuration files.
+
+## License and attribution
 
 Project-authored source code is licensed under the [MIT License](LICENSE). Third-party components and datasets retain their respective rights and licenses.
-
-## CLI help
-
-```console
-python key_audit.py --help
-```
-
-Provider requests require your own locally configured credentials. Help and the offline unit tests do not query provider accounts.
